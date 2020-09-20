@@ -8,12 +8,23 @@ const fetchData = async(searchTerm) => {
             s: searchTerm
         }
     });
-    console.log(response.data);
+    if(response.data.Error) {
+        return [];
+    }
+   return response.data.Search;
 }
 
 
-const onInput = event => {
-    fetchData(event.target.value);
+const onInput = async event => {
+    const movies = await fetchData(event.target.value);
+    const targetDiv = document.getElementById('target');
+    for(movie of movies) {
+        const div = document.createElement('div');
+        div.innerHTML = `
+        <img src="${movie.Poster}"/>
+        `;
+        targetDiv.appendChild(div);
+    }
 }
 
 
