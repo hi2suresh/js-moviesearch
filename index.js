@@ -71,13 +71,23 @@ let rightMovie;
   }
 
   const movieTemplate = (movieDetail) => {
-    const boxOffice = parseInt(
+    const dollars = parseInt(
       movieDetail.BoxOffice.replace(/\$/g,'').replace(/,/g,'')
     );
     const metaScore = parseInt(movieDetail.Metascore);
     const imdbRating = parseFloat(movieDetail.imdbRating);
     const imdbVotes = parseInt(movieDetail.imdbVotes.replace(/,/g,''));
-    console.log(boxOffice, metaScore, imdbRating, imdbVotes);
+    let count = 0;
+    const awards = movieDetail.Awards.split(' ').reduce((prev,element) => {
+      let value = parseInt(element);
+      if(isNaN(value)) {
+        return prev;
+      } else {
+        count += value;
+      }
+      return count;
+     }, 0);
+    
     return `
      <article class="media">
       <figure class="media-left">
@@ -91,23 +101,23 @@ let rightMovie;
       </div>      
       </div>
      </article>
-     <article class="notification is-primary">
+     <article data-value="${awards}" class="notification is-primary">
       <p class="title">${movieDetail.Awards}</p>
       <p class="subtitle">Awards</p>
      </article>
-     <article class="notification is-primary">
+     <article data-value="${dollars}" class="notification is-primary">
       <p class="title">${movieDetail.BoxOffice}</p>
       <p class="subtitle">BoxOffice</p>
      </article>
-     <article class="notification is-primary">
+     <article data-value="${metaScore} class="notification is-primary">
       <p class="title">${movieDetail.Metascore}</p>
       <p class="subtitle">Metascore</p>
      </article>
-     <article class="notification is-primary">
+     <article data-value="${imdbRating}" class="notification is-primary">
       <p class="title">${movieDetail.imdbRating}</p>
       <p class="subtitle">IMDB Rating</p>
      </article>
-     <article class="notification is-primary">
+     <article data-value="${imdbVotes}" class="notification is-primary">
       <p class="title">${movieDetail.imdbVotes}</p>
       <p class="subtitle">IMDB Votes</p>
      </article>
