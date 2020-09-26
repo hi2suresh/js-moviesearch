@@ -67,7 +67,31 @@ let rightMovie;
   }
 
   const runComparision = () => {
-    console.log("Running");
+    const leftStats = document.querySelectorAll('#left-summary .notification');
+    const rightStats = document.querySelectorAll('#right-summary .notification');
+
+    leftStats.forEach((leftStat,index) => {
+      const rightStat = rightStats[index];
+      const leftValue = parseInt(leftStat.dataset.value);
+      const rightValue = parseInt(rightStat.dataset.value);
+
+      if(isNaN(rightValue)) {
+        rightStat.classList.remove('is-primary');
+        leftStat.classList.remove('is-primary');
+
+      } else {
+
+      if(rightValue > leftValue) {
+        leftStat.classList.remove('is-primary');
+        leftStat.classList.add('is-warning');
+      } else {
+        rightStat.classList.remove('is-primary');
+        rightStat.classList.add('is-warning');
+      }
+    }
+
+    })
+
   }
 
   const movieTemplate = (movieDetail) => {
@@ -109,7 +133,7 @@ let rightMovie;
       <p class="title">${movieDetail.BoxOffice}</p>
       <p class="subtitle">BoxOffice</p>
      </article>
-     <article data-value="${metaScore} class="notification is-primary">
+     <article data-value="${metaScore}" class="notification is-primary">
       <p class="title">${movieDetail.Metascore}</p>
       <p class="subtitle">Metascore</p>
      </article>
